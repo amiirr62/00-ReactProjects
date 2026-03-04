@@ -14,7 +14,7 @@ app.get("/assignments", async (req, res) => {
 
 app.post("/assignments/:id/delete", async (req, res) => {
   // TODO: finish implementing this function
-  await sleep(3000);
+  await sleep(2000);
   const id = req.params.id;
   const index = database.assignments.findIndex((assignment)=>assignment.id == Number(id))
   if(index !== -1){
@@ -22,16 +22,23 @@ app.post("/assignments/:id/delete", async (req, res) => {
   }
   console.log(database.assignments)
   console.log(id);
-  res.json({ test: "you hit delete" });
-});
+  res.status(200).json();
+}); 
 
 app.post("/assignments/:id/toggle", async (req, res) => {
   // TODO: finish implementing this function
   await sleep(3000);
   const id = req.params.id;
-  console.log(id);
-  res.json({ test: "you toggled complete" });
-});
+  
+  database.assignments = database.assignments.map((assignment) =>
+      assignment.id === Number(id)
+        ? { ...assignment, completed: !assignment.completed }
+        : assignment,
+    ); 
+    res.json({ test: "you toggled complete" });
+  });
+
+
 
 app.listen(8000, () => {
   console.log("Backend Web Server has started 🚀");

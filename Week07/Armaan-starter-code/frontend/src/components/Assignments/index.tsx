@@ -4,37 +4,30 @@ import { Assignment } from "../Assignment";
 import styles from "./assignments.module.css";
 
 type Props = {
+  getAssignments(): Promise<void>
   assignments: TAssignment[];
   setAssignments: React.Dispatch<React.SetStateAction<TAssignment[]>>;
 };
 
 // *************************** DELETE ***********************************************
 // TODO: fetch all the assignments from the database
-export function Assignments({ assignments, setAssignments }: Props) {
+export function Assignments({ assignments, setAssignments, getAssignments }: Props) {
   const handleDeleteButton = async (id: string) => {
     // TODO: make sure to delete the assignment from the database too
-    const updatedAssignmentList = assignments.filter(
-      (assignment) => assignment.id !== id,
-    );
-    setAssignments(updatedAssignmentList);
-
-    //TODO: Handle the delete on the backend
-    await fetch(`${BASE_URL}/assignments/${id}/delete`, {method: "POST"})
+  await fetch(`${BASE_URL}/assignments/${id}/delete`, {method: "POST"})
+    await getAssignments()
 
     
 
   };
-//***********************************************************************************
-
-  const handleCompletedTask = (id: string, complete: boolean) => {
-    // TODO: make sure to toggle the assignment in the database
-    const updatedAssignmentList = assignments.map((assignments) =>
-      assignments.id === id
-        ? { ...assignments, completed: complete }
-        : assignments,
-    );
-    setAssignments(updatedAssignmentList);
+//********************************* CompletedTask **************************************************
+  const handleCompletedTask = async(id: string) => {
+   await fetch(`${BASE_URL}/assignments/${id}/toggle`, {method: "POST"})
+    await getAssignments()
   };
+
+
+//********************************* countCompletedTasks **************************************************
   const countCompletedTasks = () => {
     return assignments.filter((assignment) => assignment.completed).length;
   };

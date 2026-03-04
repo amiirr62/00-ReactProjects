@@ -10,7 +10,7 @@ function App() {
   const [loading, setLoading] = useState(false)
 
   // TODO: RUN LOGIC TO TALK TO BACKEND SERVER
-  async function getAssignment(){
+   async function getAssignment(){
     setLoading(true)
 
    const res = await  fetch(`${BASE_URL}/assignments`) 
@@ -28,7 +28,10 @@ useEffect(() => {
     <>
       <Header setAssignments={setAssignments} />
       {loading && <h3>Loading...</h3>}
-      {!loading && <Assignments assignments={assignments} setAssignments={setAssignments} />}  
+      {!loading && <Assignments 
+        getAssignments = {getAssignment}
+        assignments={assignments} 
+        setAssignments={setAssignments} />}  
     </>
   );
 }
