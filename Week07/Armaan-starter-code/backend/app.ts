@@ -2,6 +2,7 @@ import express from "express";
 import { setTimeout as sleep } from "node:timers/promises";
 import cors from "cors";
 import database from "./database";
+import { randomUUID } from "node:crypto";
 
 const app = express();
 app.use(cors());
@@ -11,6 +12,15 @@ app.get("/assignments", async (req, res) => {
    await sleep(3000);
   res.json(database.assignments);
 });
+
+app.post("/assignments", async(req, res) => {
+  const {assignment} = req.body
+
+  database.assignments.push({
+    task:assignment ,
+    completed:false, 
+    id:(Math.floor(Math.random()*1000) +1) })
+})
 
 app.post("/assignments/:id/delete", async (req, res) => {
   // TODO: finish implementing this function

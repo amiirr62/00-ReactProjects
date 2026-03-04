@@ -3,22 +3,28 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { uppercase, trim } from "../../helpers/stringHelpers";
 import { useState } from "react";
 import { TAssignment } from "../../interfaces";
+import { BASE_URL } from "../../helpers/constants";
 
 type Props = {
   setAssignments: React.Dispatch<React.SetStateAction<TAssignment[]>>;
+  getAssignments(): Promise<void>
 };
 
-export function Header({ setAssignments }: Props) {
+export function Header({getAssignments}: Props) {
   const [assignment, setAssignment] = useState("");
 
   const handleCreateButton = (e: React.FormEvent) => {
     // TODO: make sure to add the assignment to the database
     e.preventDefault();
-    setAssignments((prev) => [
-      ...prev,
-      { id: crypto.randomUUID(), task: assignment, completed: false },
-    ]);
+    
+     fetch (`${BASE_URL}/assignments`, {
+      method: "POST", 
+      body: JSON.stringify({ assignment}),
+      headers: {"Content-Type": "application/json"} 
+    })
+ 
     setAssignment("");
+    getAssignments()
   };
 
   return (

@@ -26,7 +26,7 @@ useEffect(() => {
  
   return ( 
     <>
-      <Header setAssignments={setAssignments} />
+      <Header getAssignments={getAssignment} setAssignments={setAssignments} />
       {loading && <h3>Loading...</h3>}
       {!loading && <Assignments 
         getAssignments = {getAssignment}
