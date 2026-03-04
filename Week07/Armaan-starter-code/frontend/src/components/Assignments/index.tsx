@@ -1,3 +1,4 @@
+import { BASE_URL } from "../../helpers/constants";
 import { TAssignment } from "../../interfaces";
 import { Assignment } from "../Assignment";
 import styles from "./assignments.module.css";
@@ -6,6 +7,8 @@ type Props = {
   assignments: TAssignment[];
   setAssignments: React.Dispatch<React.SetStateAction<TAssignment[]>>;
 };
+
+// *************************** DELETE ***********************************************
 // TODO: fetch all the assignments from the database
 export function Assignments({ assignments, setAssignments }: Props) {
   const handleDeleteButton = async (id: string) => {
@@ -14,7 +17,15 @@ export function Assignments({ assignments, setAssignments }: Props) {
       (assignment) => assignment.id !== id,
     );
     setAssignments(updatedAssignmentList);
+
+    //TODO: Handle the delete on the backend
+    await fetch(`${BASE_URL}/assignments/${id}/delete`, {method: "POST"})
+
+    
+
   };
+//***********************************************************************************
+
   const handleCompletedTask = (id: string, complete: boolean) => {
     // TODO: make sure to toggle the assignment in the database
     const updatedAssignmentList = assignments.map((assignments) =>

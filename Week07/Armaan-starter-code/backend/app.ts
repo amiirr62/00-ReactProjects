@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/assignments", async (req, res) => {
-  await sleep(3000);
+   await sleep(3000);
   res.json(database.assignments);
 });
 
@@ -16,6 +16,11 @@ app.post("/assignments/:id/delete", async (req, res) => {
   // TODO: finish implementing this function
   await sleep(3000);
   const id = req.params.id;
+  const index = database.assignments.findIndex((assignment)=>assignment.id == Number(id))
+  if(index !== -1){
+    database.assignments.splice(index, 1)
+  }
+  console.log(database.assignments)
   console.log(id);
   res.json({ test: "you hit delete" });
 });
