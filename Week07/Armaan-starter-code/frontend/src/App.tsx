@@ -3,10 +3,25 @@ import { Assignments } from "./components/Assignments";
 import { useEffect, useState } from "react";
 import { TAssignment } from "./interfaces";
 import { BASE_URL } from "./helpers/constants"
+import {Route, Routes , Link} from "react-router"
 
 
 function App() {
-  const [assignments, setAssignments] = useState<TAssignment[]>([]);
+  return(
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="contact" element={<Contact />} />
+  </Routes>
+
+  )
+ return (
+  <Home />
+   
+ )
+}
+
+function Home() {
+   const [assignments, setAssignments] = useState<TAssignment[]>([]);
   const [loading, setLoading] = useState(false)
 
   // TODO: RUN LOGIC TO TALK TO BACKEND SERVER
@@ -26,6 +41,7 @@ useEffect(() => {
  
   return ( 
     <>
+    <Link to="/contact">Contact US</Link>
       <Header getAssignments={getAssignment} setAssignments={setAssignments} />
       {loading && <h3>Loading...</h3>}
       {!loading && <Assignments 
@@ -35,5 +51,12 @@ useEffect(() => {
     </>
   );
 }
-
+function Contact(){
+  return (
+    <div>
+      <Link to="/">Home</Link>
+      <h1>Welcome To Contact Page</h1>
+    </div>
+  )
+}
 export default App;
